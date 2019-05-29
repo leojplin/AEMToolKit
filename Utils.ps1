@@ -12,8 +12,9 @@ function Get-BasicAuthorizationValue {
 }
 
 function Load-AEMEnvs {
-    if (Test-Path "$env:userprofile\test.csv") {
-        $Script:aemEnv = Import-Csv "$env:userprofile\test.csv"
+    $path = "$env:userprofile\.aemEnv"
+    if (Test-Path $path) {
+        $Script:aemEnv = Import-Csv $path
     }
 }
 
