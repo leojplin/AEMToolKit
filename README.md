@@ -1,7 +1,7 @@
 # AEMToolKit
 
 ## Follow the link to install the Powershell module
-https://www.powershellgallery.com/packages/AemToolkit/1.0.1
+https://www.powershellgallery.com/packages/AemToolkit
 
 ## To start using this module, first add the AEM environments with the following command:
 ```
