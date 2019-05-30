@@ -1,22 +1,18 @@
 function Start-Workflow {
     [CmdletBinding()]
     param (
-        # Server name to create the package on
         [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $ServerName,
 
-        # Folder name to create the project in
         [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $Path,
 
-        # Language to create language copy to
         [Parameter(ValueFromPipelineByPropertyName = $True, Mandatory = $True)]
         [String]
         $WorkflowModel,
 
-        # Language to create language copy to
         [Parameter(ValueFromPipelineByPropertyName = $True, Mandatory = $False)]
         [String]
         $WorkflowTitle

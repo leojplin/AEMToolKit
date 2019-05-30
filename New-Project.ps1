@@ -1,52 +1,42 @@
 function New-Project {
     [CmdletBinding()]
     param (
-        # Server name to create the package on
         [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $ServerName,
 
-        # Folder name to create the project in
         [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $FolderName,
 
-        # Target language to translate to
         [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $TargetLanguage,
 
-        # Project name
         [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $ProjectName,
 
-        # Source language to translate from
         [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $SourceLanguage,
 
-        # Translation Method
         [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $TranslationMethod,
 
-        # Translation provider
         [Parameter(ValueFromPipelineByPropertyName = $True)]
         [string]
         $TranslationProvider,
 
-        # Cloud config
         [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $CloudConfigPath,
 
-        # Cloud config name
         [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $CloudConfigName,
             
-        # Owners
         [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $Owners
@@ -190,12 +180,14 @@ $CloudConfigName
             $url = $server.url
             $res = Invoke-WebRequest -Uri "$($url)/content/projects" -Method Post -Headers $headers -Body $form
             $res.Content -match "href='(.*)'"
-            $obj | Add-Member -MemberType NoteProperty -Name ProjectPath -Value $($Matches[2])
+            $projectPath = $($Matches[2]) 
+            $obj | Add-Member -MemberType NoteProperty -Name ProjectPath -Value $projectPath
             $obj | Add-Member -MemberType NoteProperty -Name Created -Value $True
         }
         catch {
             $obj | Add-Member -MemberType NoteProperty -Name Created -Value $false
         }
+        Write-Output $obj
     }
         
     end {

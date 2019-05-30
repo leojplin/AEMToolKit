@@ -1,17 +1,14 @@
 function Update-Property {
     [CmdletBinding()]
     param (
-        # Server name to create the package on
         [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $ServerName,
 
-        # Folder name to create the project in
         [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $Path,
 
-        # Target language to translate to
         [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $Form

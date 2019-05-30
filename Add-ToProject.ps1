@@ -57,6 +57,7 @@ function Add-ToProject {
         catch {
             $obj | Add-Member -MemberType NoteProperty -Name Added -Value $false
         }
+        Write-Output $obj
     }
     
     end {

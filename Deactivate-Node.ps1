@@ -2,13 +2,11 @@ function Deactivate-Node {
 
     [CmdletBinding()]
     param (
-        # Server name to create the package on
         [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $ServerName,
 
-        # Folder name to create the project in
-        [Parameter(ValueFromPipeline)]
+        [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $Path
 

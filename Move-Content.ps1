@@ -1,22 +1,18 @@
 function Move-Content {
     [CmdletBinding()]
     param (
-        # Server name to create the package on
         [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $From,
 
-        # Folder name to create the project in
         [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $To,
 
-        # Folder name to create the project in
         [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $Path,
 
-        # Folder name to create the project in
         [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $ToPath

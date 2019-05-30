@@ -11,7 +11,7 @@
 . $PSScriptRoot\Activate-Page.ps1
 . $PSScriptRoot\Add-AEMEnv.ps1
 . $PSScriptRoot\Remove-Page.ps1
-. $PSScriptRoot\Get-ChildPages.ps1
+. $PSScriptRoot\Get-ChildPage.ps1
 . $PSScriptRoot\Deactivate-Node.ps1
 . $PSScriptRoot\Delete-Node.ps1
 . $PSScriptRoot\Test-Page.ps1

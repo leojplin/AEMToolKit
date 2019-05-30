@@ -2,12 +2,10 @@ function Activate-Page {
 
     [CmdletBinding()]
     param (
-        # Server name to create the package on
         [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $ServerName,
 
-        # Folder name to create the project in
         [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $Path
@@ -42,12 +40,17 @@ function Activate-Page {
         $obj | Add-Member -MemberType NoteProperty -Name Path -Value "$path/$($_.Name)"
 
         try {
-            $url = $server.url
-            $res = Invoke-WebRequest -Uri "$url/bin/replicate.json" -Method Post -Headers $headers -Body $form
-            $obj | Add-Member -MemberType NoteProperty -Name Activated -Value "True"
+            if (Test-Page -ServerName $ServerName -Path $Path) {
+                $url = $server.url
+                $res = Invoke-WebRequest -Uri "$url/bin/replicate.json" -Method Post -Headers $headers -Body $form
+                $obj | Add-Member -MemberType NoteProperty -Name Activated -Value $True
+            }
+            else {
+                $obj | Add-Member -MemberType NoteProperty -Name Activated -Value $false
+            }
         }
         catch {
-            $obj | Add-Member -MemberType NoteProperty -Name Activated -Value "False"
+            $obj | Add-Member -MemberType NoteProperty -Name Activated -Value $false
         }
         Write-Output $obj
     }

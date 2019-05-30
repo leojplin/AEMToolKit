@@ -2,13 +2,11 @@ function Remove-Page {
 
     [CmdletBinding()]
     param (
-        # Server name to create the package on
         [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $ServerName,
 
-        # Folder name to create the project in
-        [Parameter(ValueFromPipeline)]
+        [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $Path
 
@@ -46,13 +44,20 @@ function Remove-Page {
         $obj | Add-Member -MemberType NoteProperty -Name Path -Value $Path
 
         try {
+            if(Test-Page -ServerName $ServerName -Path $Path){
             $url = $server.url
             $res = Invoke-WebRequest -Uri "$url/bin/wcmcommand" -Method Post -Headers $headers -Body $form
             $obj | Add-Member -MemberType NoteProperty -Name Removed -Value $True
+            }
+            else{
+                $obj | Add-Member -MemberType NoteProperty -Name Removed -Value $false
+            }
         }
         catch {
             $obj | Add-Member -MemberType NoteProperty -Name Removed -Value $false
         }
+
+        Write-Output $obj
     }
     
     end {

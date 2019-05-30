@@ -1,27 +1,22 @@
 function New-LanguageCopy {
     [CmdletBinding()]
     param (
-        # Server name to create the package on
         [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $ServerName,
 
-        # Folder name to create the project in
         [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $Path,
 
-        # Folder name to create the project in
         [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $Deep,
 
-        # Language to create language copy to
         [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $Language,
 
-        # Language to create language copy to
         [Parameter(ValueFromPipelineByPropertyName = $True, Mandatory = $True)]
         [String]
         $SourceLanguage

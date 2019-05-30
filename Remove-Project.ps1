@@ -1,13 +1,11 @@
 function Remove-Project {
     [CmdletBinding()]
     param (
-        # Server name to create the package on
         [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $ServerName,
-
-        # Folder name to create the project in
-        [Parameter(ValueFromPipeline)]
+        
+        [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $Path
 
@@ -56,6 +54,7 @@ function Remove-Project {
         catch {
             $obj | Add-Member -MemberType NoteProperty -Name Removed -Value $false
         }
+        Write-Output $obj
     }
     
     end {

@@ -3,13 +3,11 @@ function Test-Page {
 
     [CmdletBinding()]
     param (
-        # Server name to create the package on
         [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $ServerName,
 
-        # Folder name to create the project in
-        [Parameter(ValueFromPipeline)]
+        [Parameter(ValueFromPipelineByPropertyName = $True)]
         [String]
         $Path
 
@@ -34,12 +32,6 @@ function Test-Page {
             "User-Agent"  = "curling"
         }
         
-        
-        $headers = @{
-            Authorization = $basicAuthValue;
-            "User-Agent"  = "curling"
-        }
-
         try {
             $url = $server.url
             $res = Invoke-WebRequest -Uri "$($url)$path.html" -Method Get -Headers $headers
