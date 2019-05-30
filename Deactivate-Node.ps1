@@ -1,5 +1,4 @@
-
-function Get-ChildPage {
+function Deactivate-Node {
 
     [CmdletBinding()]
     param (
@@ -9,7 +8,7 @@ function Get-ChildPage {
         $ServerName,
 
         # Folder name to create the project in
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter(ValueFromPipeline)]
         [String]
         $Path
 
@@ -28,34 +27,37 @@ function Get-ChildPage {
             Write-Error -Message "ServerName $ServerName is not found."
             return;
         }
-
-
+        
         $headers = @{
             Authorization = Get-BasicAuthorizationValue -Username $server.username -Password $server.password;
             "User-Agent"  = "curling"
         }
-
+        
+        $form = @{
+            "_charset_" = "utf-8"
+            "action"    = "replicatedelete"
+            "path"      = $Path
+        }
+        
+        $obj = New-Object -TypeName psobject
+        $obj | Add-Member -MemberType NoteProperty -Name ServerName -Value $ServerName
+        $obj | Add-Member -MemberType NoteProperty -Name Path -Value "$path"
 
         try {
             $url = $server.url
-            $res = Invoke-WebRequest -Uri "$url$path.tidy.1.json" -Method Get -Headers $headers 
-            $json = $res.Content | ConvertFrom-Json 
-            $json | gm | Where-Object { $_.MemberType -eq "NoteProperty" } | Where-Object { $x = $_.Name; $json."$x"."jcr:primaryType" -eq "cq:Page" } | % {
-                $obj = New-Object -TypeName psobject
-                $obj | Add-Member -MemberType NoteProperty -Name ServerName -Value $ServerName
-                $obj | Add-Member -MemberType NoteProperty -Name Path -Value "$path/$($_.Name)"
-                Write-Output $obj
-                
-            }     
-
+            $res = Invoke-WebRequest -Uri "$url/crx/de/replication.jsp" -Method Post -Headers $headers -Body $form
+            $obj | Add-Member -MemberType NoteProperty -Name Deactivated -Value "True"
         }
         catch {
-            
-            Write-Error -Message "Query failed."
-            return $false
+            $obj | Add-Member -MemberType NoteProperty -Name Deactivated -Value "False"
+            $_
         }
+        Write-Output $obj
     }
     
     end {
     }
 }   
+
+
+

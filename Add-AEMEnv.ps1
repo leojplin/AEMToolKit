@@ -35,7 +35,6 @@ function Add-AEMEnv {
     process {
         
         $server = $aemEnv | Where-Object -Property name -Value $ServerName -eq
-        $aemEnv
         if ($server -ne $null) {
             Write-Error -Message "ServerName $ServerName already exists, please use a different name."
             return;
@@ -49,6 +48,7 @@ function Add-AEMEnv {
         
         $env | Export-Csv "$env:userprofile\.aemEnv" -NoTypeInformation -Append
         Load-AEMEnvs
+        $env
     }
     
     end {

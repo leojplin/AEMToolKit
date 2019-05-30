@@ -182,19 +182,19 @@ $CloudConfigName
 ------WebKitFormBoundary445UpSlzflHm4cxp--
 "@
 
+        $obj = New-Object -TypeName psobject
+        $obj | Add-Member -MemberType NoteProperty -Name ServerName -Value $ServerName
+        $obj | Add-Member -MemberType NoteProperty -Name ProjectName -Value $createdPath
+        
         try {
             $url = $server.url
             $res = Invoke-WebRequest -Uri "$($url)/content/projects" -Method Post -Headers $headers -Body $form
-            $res.StatusCode
-            Write-Information "$ProjectName created."
             $res.Content -match "href='(.*)'"
-            $Matches[2]
-    
+            $obj | Add-Member -MemberType NoteProperty -Name ProjectPath -Value $($Matches[2])
+            $obj | Add-Member -MemberType NoteProperty -Name Created -Value $True
         }
         catch {
-            # throw $_.Exception
-            Write-Error -Message "$ProjectName creation failed."
-            return
+            $obj | Add-Member -MemberType NoteProperty -Name Created -Value $false
         }
     }
         

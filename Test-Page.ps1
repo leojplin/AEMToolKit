@@ -1,5 +1,5 @@
 
-function Get-ChildPage {
+function Test-Page {
 
     [CmdletBinding()]
     param (
@@ -9,7 +9,7 @@ function Get-ChildPage {
         $ServerName,
 
         # Folder name to create the project in
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter(ValueFromPipeline)]
         [String]
         $Path
 
@@ -28,31 +28,25 @@ function Get-ChildPage {
             Write-Error -Message "ServerName $ServerName is not found."
             return;
         }
-
-
+        
         $headers = @{
             Authorization = Get-BasicAuthorizationValue -Username $server.username -Password $server.password;
             "User-Agent"  = "curling"
         }
-
+        
+        
+        $headers = @{
+            Authorization = $basicAuthValue;
+            "User-Agent"  = "curling"
+        }
 
         try {
             $url = $server.url
-            $res = Invoke-WebRequest -Uri "$url$path.tidy.1.json" -Method Get -Headers $headers 
-            $json = $res.Content | ConvertFrom-Json 
-            $json | gm | Where-Object { $_.MemberType -eq "NoteProperty" } | Where-Object { $x = $_.Name; $json."$x"."jcr:primaryType" -eq "cq:Page" } | % {
-                $obj = New-Object -TypeName psobject
-                $obj | Add-Member -MemberType NoteProperty -Name ServerName -Value $ServerName
-                $obj | Add-Member -MemberType NoteProperty -Name Path -Value "$path/$($_.Name)"
-                Write-Output $obj
-                
-            }     
-
+            $res = Invoke-WebRequest -Uri "$($url)$path.html" -Method Get -Headers $headers
+            $True
         }
         catch {
-            
-            Write-Error -Message "Query failed."
-            return $false
+            $false
         }
     }
     

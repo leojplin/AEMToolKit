@@ -44,17 +44,17 @@ function Remove-Project {
             "_charset_"                        = "utf-8"
             ":operation"                       = "projectdelete"
         }
+        $obj = New-Object -TypeName psobject
+        $obj | Add-Member -MemberType NoteProperty -Name ServerName -Value $ServerName
+        $obj | Add-Member -MemberType NoteProperty -Name Path -Value $Path
+
         try {
             $url = $server.url
             $res = Invoke-WebRequest -Uri "$($url)/content/projects" -Method Post -Headers $headers -Body $form
-            $res.StatusCode
-            Write-Information "$Path Removed."
-            Write-Output $Path
+            $obj | Add-Member -MemberType NoteProperty -Name Removed -Value $True
         }
         catch {
-            # throw $_.Exception
-            Write-Error -Message "$Path removal failed."
-            return
+            $obj | Add-Member -MemberType NoteProperty -Name Removed -Value $false
         }
     }
     

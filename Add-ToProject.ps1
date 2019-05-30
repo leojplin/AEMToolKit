@@ -43,17 +43,19 @@ function Add-ToProject {
             ":operation"          = "ADD_TRANSLATION_PAGES"
             "translationpage"     = $PagePath
         }
+        $obj = New-Object -TypeName psobject
+        $obj | Add-Member -MemberType NoteProperty -Name ServerName -Value $ServerName
+        $obj | Add-Member -MemberType NoteProperty -Name PagePath -Value $PagePath
+        $obj | Add-Member -MemberType NoteProperty -Name ProjectPath -Value $ProjectPath
+
+
         try {
             $url = $server.url
             $res = Invoke-WebRequest -Uri "$($url)$ProjectPath/jcr:content/dashboard/gadgets/translationjob" -Method Post -Headers $headers -Body $form
-            $res.StatusCode
-            Write-Information "$PagePath added to project $ProjectPath."
-            Write-Output $ProjectPath
+            $obj | Add-Member -MemberType NoteProperty -Name Added -Value $True
         }
         catch {
-            # throw $_.Exception
-            Write-Error -Message "$PagePath failed to add to project $ProjectPath"
-            return
+            $obj | Add-Member -MemberType NoteProperty -Name Added -Value $false
         }
     }
     
